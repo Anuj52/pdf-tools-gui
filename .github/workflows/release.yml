@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
       - name: Install dependencies
         run: |
@@ -26,10 +26,10 @@ jobs:
       - name: Build EXE
         run: pyinstaller FluxPDF.spec --clean --noconfirm
 
-      - name: Download & Install Inno Setup (Silent)
+      - name: Install Inno Setup (FAST CDN)
         shell: powershell
         run: |
-          Invoke-WebRequest "https://jrsoftware.org/download.php/is.exe" -OutFile "innosetup.exe"
+          Invoke-WebRequest "https://cdn.jrsoftware.org/is.exe" -OutFile "innosetup.exe"
           Start-Process "innosetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART" -Wait
 
       - name: Build Installer
@@ -37,7 +37,7 @@ jobs:
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" setup.iss
 
-      - name: Create GitHub Release
+      - name: Upload Release Assets
         uses: softprops/action-gh-release@v1
         with:
           files: |
