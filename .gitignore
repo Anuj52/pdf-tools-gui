@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+
+# Build folders
+build/
+dist/
+installer/
+
+# PyInstaller output
+*.spec
+
+# Windows EXE
+*.exe
+*.dll
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
