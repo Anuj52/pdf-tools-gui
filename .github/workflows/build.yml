@@ -2,14 +2,15 @@ name: Build FluxPDF
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -20,26 +21,23 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller pandas PyPDF2 docx2pdf
+          pip install pyinstaller pandas PyPDF2 docx2pdf comtypes
 
-      - name: Build EXE
+      - name: Build PyInstaller EXE
         run: pyinstaller FluxPDF.spec --clean --noconfirm
 
-      - name: Download & Install Inno Setup (fast mirror)
-        shell: powershell
-        run: |
-          Invoke-WebRequest "https://github.com/vslavik/innosetup/releases/download/6.2.2/innosetup-6.2.2.exe" -OutFile "innosetup.exe"
-          Start-Process "innosetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART" -Wait
+      - name: Install Inno Setup (Chocolatey)
+        run: choco install innosetup --yes --no-progress
 
-      - name: Build Installer
+      - name: Build Windows Installer (.exe)
         shell: powershell
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" setup.iss
 
-      - name: Upload Artifacts
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: FluxPDF-Build
           path: |
-            dist/FluxPDF/FluxPDF.exe
-            installer/*.exe
+            dist\FluxPDF\FluxPDF.exe
+            installer\*.exe
