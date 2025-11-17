@@ -1,6 +1,27 @@
 # PDF Tools — Password Remover, PDF Merger, Word → PDF Converter  
 *A single-file, GUI-only toolkit for working with PDF and Word files.*
 
+<p align="center">
+
+<a href="https://github.com/Anuj52/pdf-tools-gui/stargazers">
+  <img src="https://img.shields.io/github/stars/Anuj52/pdf-tools-gui?style=for-the-badge" />
+</a>
+
+<a href="https://github.com/Anuj52/pdf-tools-gui/issues">
+  <img src="https://img.shields.io/github/issues/Anuj52/pdf-tools-gui?style=for-the-badge" />
+</a>
+
+<a href="https://github.com/Anuj52/pdf-tools-gui/network/members">
+  <img src="https://img.shields.io/github/forks/Anuj52/pdf-tools-gui?style=for-the-badge" />
+</a>
+
+<img src="https://img.shields.io/badge/Python-3.8+-blue?style=for-the-badge" />
+
+<img src="https://img.shields.io/badge/Platform-Windows-green?style=for-the-badge" />
+
+</p>
+
+
 This project provides a **modern, tabbed Tkinter GUI** that includes:
 
 - **PDF Password Tool**  
