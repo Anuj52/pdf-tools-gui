@@ -10,7 +10,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -18,35 +18,30 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install Python dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller pandas PyPDF2 docx2pdf
+          pip install pyinstaller docx2pdf pandas PyPDF2
 
-      - name: Build EXE using PyInstaller
-        run: |
-          pyinstaller pdf_tools.spec --clean --noconfirm
+      - name: Build EXE
+        run: pyinstaller FluxPDF.spec --clean --noconfirm
 
       - name: Download & Install Inno Setup (Silent)
         shell: powershell
         run: |
           Invoke-WebRequest "https://jrsoftware.org/download.php/is.exe" -OutFile "innosetup.exe"
           Start-Process "innosetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART" -Wait
-          if (-Not (Test-Path "C:\Program Files (x86)\Inno Setup 6\ISCC.exe")) {
-              Write-Error "Inno Setup install failed"
-              exit 1
-          }
 
-      - name: Build Windows Installer (.exe)
+      - name: Build Installer
         shell: powershell
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" setup.iss
 
-      - name: Upload Release
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            dist/FluxPDF.exe
+            dist/FluxPDF/FluxPDF.exe
             installer/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

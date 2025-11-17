@@ -41,5 +41,5 @@ jobs:
         with:
           name: FluxPDF-Build
           path: |
-            dist\FluxPDF\FluxPDF.exe
-            installer\*.exe
+            dist/FluxPDF/FluxPDF.exe
+            installer/*.exe
