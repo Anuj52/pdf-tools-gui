@@ -16,28 +16,32 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller docx2pdf pandas PyPDF2
+          pip install pyinstaller pandas PyPDF2 docx2pdf
 
       - name: Build EXE
         run: pyinstaller FluxPDF.spec --clean --noconfirm
 
-      - name: Install Inno Setup (FAST CDN)
+      - name: Download & Install Inno Setup (fast mirror)
         shell: powershell
         run: |
-          Invoke-WebRequest "https://cdn.jrsoftware.org/is.exe" -OutFile "innosetup.exe"
+          Invoke-WebRequest "https://github.com/vslavik/innosetup/releases/download/6.2.2/innosetup-6.2.2.exe" -OutFile "innosetup.exe"
           Start-Process "innosetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART" -Wait
+          if (-Not (Test-Path 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe')) {
+            Write-Error 'Inno Setup failed to install'
+            exit 1
+          }
 
-      - name: Build Installer
+      - name: Build Installer (.exe)
         shell: powershell
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" setup.iss
 
-      - name: Upload Release Assets
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           files: |

@@ -2,7 +2,7 @@ name: Build FluxPDF
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -25,10 +25,10 @@ jobs:
       - name: Build EXE
         run: pyinstaller FluxPDF.spec --clean --noconfirm
 
-      - name: Install Inno Setup (FAST CDN)
+      - name: Download & Install Inno Setup (fast mirror)
         shell: powershell
         run: |
-          Invoke-WebRequest "https://cdn.jrsoftware.org/is.exe" -OutFile "innosetup.exe"
+          Invoke-WebRequest "https://github.com/vslavik/innosetup/releases/download/6.2.2/innosetup-6.2.2.exe" -OutFile "innosetup.exe"
           Start-Process "innosetup.exe" -ArgumentList "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART" -Wait
 
       - name: Build Installer
@@ -36,7 +36,7 @@ jobs:
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" setup.iss
 
-      - name: Upload Build Artifacts
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: FluxPDF-Build
