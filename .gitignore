@@ -1,32 +1,54 @@
-# Python
+# --- Python Fundamentals ---
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 *.pdb
+*.log
 
-# Build artifacts
+# --- Virtual Environments ---
+# Covers common venv naming conventions
+venv/
+env/
+.venv/
+.env/
+
+# --- PyInstaller Build Artifacts ---
+# Ignore the build working directory
 build/
+# Ignore the final application folder
 dist/
-installer/
-*.spec
-
-# PyInstaller internal build folders
+# Ignore internal temp folders (PyInstaller 6+)
 *_internal/
 *_external/
 
-# Virtual environments
-venv/
-.env/
+# --- FluxPDF Specifics ---
+# Ignore the compiled installer output folder
+installer/
+# Ignore generated Excel/CSV logs from the app running
+pdf_tools_log_*.csv
+# Do NOT ignore *.spec - we need FluxPDF.spec!
 
-# Windows EXE output
-*.exe
-*.dll
+# --- Inno Setup ---
+# Default output folder for Inno Setup (if you didn't change it to 'installer')
+Output/
 
-# Logs
-*.log
+# --- Windows / OS Junk ---
+Thumbs.db
+Desktop.ini
+.DS_Store
 
-# IDE / tools
+# --- IDE Settings ---
 .vscode/
 .idea/
 *.swp
+*.swo
+
+# --- Executables ---
+# Ignore EXEs but be careful: 
+# We DO want to commit tools if you have any, 
+# but we DONT want to commit the build output.
+*.exe
+*.dll
+# Whitelist specific executables if you ever add a CLI tool to your repo:
+# !my_tool.exe

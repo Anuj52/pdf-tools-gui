@@ -3,10 +3,10 @@ name: Release FluxPDF
 on:
   push:
     tags:
-      - "v*"
+      - "v*"  # Triggers only when you push a tag like v1.0, v2.1, etc.
 
 permissions:
-  contents: write   # REQUIRED for GitHub Releases
+  contents: write   # REQUIRED for GitHub Releases to upload assets
 
 jobs:
   release:
@@ -24,24 +24,38 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller pandas PyPDF2 docx2pdf comtypes
+          # Added tkinterdnd2 to match your spec requirements
+          pip install pyinstaller pandas PyPDF2 docx2pdf comtypes tkinterdnd2
 
-      - name: Build EXE
+      # Safety step: ensure icon exists so build doesn't fail
+      - name: Ensure Icon Exists
+        shell: powershell
+        run: |
+          if (!(Test-Path "app.ico")) {
+             New-Item -Path "app.ico" -ItemType File
+          }
+
+      - name: Build PyInstaller Directory
         run: pyinstaller FluxPDF.spec --clean --noconfirm
 
       - name: Install Inno Setup
         run: choco install innosetup --yes --no-progress
 
-      - name: Build Installer
+      - name: Create Installer Directory
+        run: mkdir installer
+
+      - name: Build Windows Installer (.exe)
         shell: powershell
         run: |
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" setup.iss
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
+          # We ONLY upload the installer. 
+          # The raw exe in dist/FluxPDF/ will not work alone, so we don't release it.
           files: |
-            dist/FluxPDF/FluxPDF.exe
             installer/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -2,8 +2,9 @@ name: Build FluxPDF
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -21,13 +22,25 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller pandas PyPDF2 docx2pdf comtypes
+          pip install pyinstaller pandas PyPDF2 docx2pdf comtypes tkinterdnd2
 
-      - name: Build PyInstaller EXE
+      # Create a dummy icon if one doesn't exist to prevent build errors
+      - name: Ensure Icon Exists
+        shell: powershell
+        run: |
+          if (!(Test-Path "app.ico")) {
+             New-Item -Path "app.ico" -ItemType File
+          }
+
+      - name: Build PyInstaller Distribution
         run: pyinstaller FluxPDF.spec --clean --noconfirm
 
-      - name: Install Inno Setup (Chocolatey)
+      - name: Install Inno Setup
         run: choco install innosetup --yes --no-progress
+
+      # Explicitly create the installer folder so Inno Setup has a place to put the output
+      - name: Create Installer Directory
+        run: mkdir installer
 
       - name: Build Windows Installer (.exe)
         shell: powershell
@@ -37,7 +50,5 @@ jobs:
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: FluxPDF-Build
-          path: |
-            dist\FluxPDF\FluxPDF.exe
-            installer\*.exe
+          name: FluxPDF-Installer
+          path: installer/*.exe
