@@ -1,5 +1,5 @@
 ; ----------------------------------------------
-; FluxPDF Windows Installer
+; FluxPDF Windows Installer - FIXED
 ; ----------------------------------------------
 
 [Setup]
@@ -14,7 +14,8 @@ Compression=lzma
 SolidCompression=yes
 
 [Files]
-Source: "dist\FluxPDF\FluxPDF.exe"; DestDir: "{app}"; Flags: ignoreversion
+; Copy EVERYTHING inside dist\FluxPDF\
+Source: "dist\FluxPDF\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{commondesktop}\FluxPDF"; Filename: "{app}\FluxPDF.exe"

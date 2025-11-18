@@ -6,14 +6,8 @@ a = Analysis(
     ['pdf_tools_tabbed_word_improved.py'],
     pathex=['.'],
     binaries=[],
-    datas=[
-        ('app.ico', '.'),
-    ],
-    hiddenimports=[
-        'docx2pdf',
-        'comtypes',
-        'win32com'
-    ],
+    datas=[('app.ico', '.')],
+    hiddenimports=['docx2pdf', 'comtypes', 'win32com'],
     hookspath=[],
     runtime_hooks=[],
     excludes=[],
@@ -28,7 +22,7 @@ exe = EXE(
     pyz,
     a.scripts,
     [],
-    exclude_binaries=True,
+    exclude_binaries=False,  # MUST BE FALSE
     name='FluxPDF',
     debug=False,
     bootloader_ignore_signals=False,
@@ -38,13 +32,13 @@ exe = EXE(
     icon='app.ico',
 )
 
+
 coll = COLLECT(
     exe,
     a.binaries,
     a.zipfiles,
     a.datas,
     strip=False,
-    upx=True,
-    upx_exclude=[],
+    upx=False,        # IMPORTANT: disable UPX
     name='FluxPDF'
 )
