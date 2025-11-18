@@ -1,21 +1,47 @@
+# ---------------------------------------
 # Python
+# ---------------------------------------
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-# Build folders
+# Virtual env
+venv/
+env/
+
+# ---------------------------------------
+# PyInstaller build folders
+# ---------------------------------------
 build/
 dist/
 installer/
 
-# PyInstaller output
+# Ignore PyInstaller output files
+*.spec
 
-# Windows EXE
+# ---------------------------------------
+# Windows build outputs
+# ---------------------------------------
 *.exe
 *.dll
+*.msi
+*.zip
 
-# Logs
+# Python crash dumps
 *.log
 
-# IDE
+# ---------------------------------------
+# Editor / IDE
+# ---------------------------------------
 .vscode/
 .idea/
+*.suo
+*.user
+*.cache
+*.project
+*.settings/
+
+# OS files
+Thumbs.db
+.DS_Store
