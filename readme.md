@@ -6,6 +6,9 @@
   <a href="https://github.com/Anuj52/pdf-tools-gui/releases/latest">
     <img src="https://img.shields.io/github/v/release/Anuj52/pdf-tools-gui?style=for-the-badge&color=brightgreen&label=Download%20Latest%20Installer" alt="Download Latest Release" />
   </a>
+  <a href="https://github.com/Anuj52/pdf-tools-gui/releases">
+    <img src="https://img.shields.io/github/downloads/Anuj52/pdf-tools-gui/total?style=for-the-badge&label=Total%20Downloads" alt="Total Downloads" />
+  </a>
 </p>
 
 <p align="center">
