@@ -5,6 +5,9 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: write   # REQUIRED for GitHub Releases
+
 jobs:
   release:
     runs-on: windows-latest
